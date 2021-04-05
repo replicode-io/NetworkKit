@@ -20,7 +20,7 @@ public struct NetworkKit {
         self.authToken = token
     }
     
-    static func request<Response:Decodable>(_ method:HTTPMethod = .GET,
+    public static func request<Response:Decodable>(_ method:HTTPMethod = .GET,
                                      url:URL,
                                      body: Data?=nil,       
                                      ofType type:Response.Type) -> AnyPublisher<Response, Error> {
