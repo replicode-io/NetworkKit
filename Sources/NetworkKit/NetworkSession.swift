@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  NetworkSession.swift
 //  
 //
 //  Created by Robert Canton on 2021-04-05.
@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+
 
 protocol NetworkSession: AnyObject {
     func publisher<Response:Decodable>(_ method:HTTPMethod,
