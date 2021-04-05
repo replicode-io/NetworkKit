@@ -1,3 +1,3 @@
 # NetworkKit
 
-A description of this package.
+Combine based Networking Functions & Utility.
