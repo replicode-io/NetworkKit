@@ -4,7 +4,7 @@ import UIKit
 
 public class NetworkKit:NSObject, URLSessionDelegate {
     
-    static let shared = NetworkKit()
+    public static let shared = NetworkKit()
     private let session: URLSession
     var isLoggingEnabled: Bool = false
     
