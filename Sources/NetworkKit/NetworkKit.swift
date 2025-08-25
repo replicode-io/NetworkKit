@@ -41,7 +41,7 @@ public class NetworkKit:NSObject, URLSessionDelegate {
                 let bearerToken = "Bearer \(token)"
                 request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
                 break
-            case .xiAPIKey(let apiKey):
+            case .apiKey(let apiKey):
                 request.addValue(apiKey, forHTTPHeaderField: "xi-api-key")
                 break
             }
@@ -83,7 +83,7 @@ public class NetworkKit:NSObject, URLSessionDelegate {
                 let bearerToken = "Bearer \(token)"
                 request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
                 break
-            case .xiAPIKey(let apiKey):
+            case .apiKey(let apiKey):
                 request.addValue(apiKey, forHTTPHeaderField: "xi-api-key")
                 break
             }

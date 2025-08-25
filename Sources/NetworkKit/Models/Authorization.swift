@@ -1,4 +1,4 @@
 public enum Authorization {
     case bearer(_ token:String)
-    case xiAPIKey(_ apiKey:String)
+    case apiKey(_ apiKey:String)
 }
