@@ -2,7 +2,7 @@ import Foundation
 import Combine
 import UIKit
 
-class NetworkKit:NSObject, URLSessionDelegate {
+public class NetworkKit:NSObject, URLSessionDelegate {
     
     static let shared = NetworkKit()
     private let session: URLSession
@@ -13,11 +13,11 @@ class NetworkKit:NSObject, URLSessionDelegate {
         super.init()
     }
 
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
     
-    func requestAsync<Response:Decodable>(
+    public func requestAsync<Response:Decodable>(
          _ method: HTTPMethod = .GET,
          to endpoint: Endpoint,
          body: Data?=nil,
@@ -63,7 +63,7 @@ class NetworkKit:NSObject, URLSessionDelegate {
         return try decoder.decode(Response.self, from: data)
     }
     
-    func requestDataAsync(
+    public func requestDataAsync(
          _ method: HTTPMethod = .GET,
          to endpoint: Endpoint,
          body: Data?=nil,

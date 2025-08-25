@@ -1,6 +1,6 @@
 import Foundation
 
-struct Endpoint {
+public  struct Endpoint {
     let host:Host
     let path: String
     var url:URL {
