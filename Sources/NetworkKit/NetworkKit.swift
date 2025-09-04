@@ -59,7 +59,7 @@ public class NetworkKit:NSObject, URLSessionDelegate {
                 print(serial)
             }
         }
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.iso8601WithFractionalSeconds
         return try decoder.decode(Response.self, from: data)
     }
     
@@ -95,4 +95,28 @@ public class NetworkKit:NSObject, URLSessionDelegate {
         return data
     }
 
+}
+
+extension JSONDecoder {
+    static let iso8601WithFractionalSeconds: JSONDecoder = {
+        let decoder = JSONDecoder()
+
+        let withFrac = ISO8601DateFormatter()
+        withFrac.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        let noFrac = ISO8601DateFormatter()
+        noFrac.formatOptions = [.withInternetDateTime]
+
+        decoder.dateDecodingStrategy = .custom { d in
+            let container = try d.singleValueContainer()
+            let s = try container.decode(String.self)
+            if let date = withFrac.date(from: s) { return date }
+            if let date = noFrac.date(from: s) { return date } // nice fallback
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Invalid ISO8601 date: \(s)"
+            )
+        }
+        return decoder
+    }()
 }
