@@ -25,7 +25,9 @@ public class NetworkKit:NSObject, URLSessionDelegate {
          token:String?=nil
     ) async throws -> Response {
         let url = endpoint.url
-        print("[NetworkManager] requestAsync: \(url.absoluteString)")
+        if isLoggingEnabled {
+            print("[NetworkManager] requestAsync: \(url.absoluteString)")
+        }
         var request = URLRequest(
            url: url,
            cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
@@ -35,9 +37,9 @@ public class NetworkKit:NSObject, URLSessionDelegate {
         if let authorization = await endpoint.host.authorization() {
             switch authorization {
             case .bearer(let token):
-                #if DEBUG
-                print("[NetworkManager] token: \(token)")
-                #endif
+                if isLoggingEnabled {
+                    print("[NetworkManager] token: \(token)")
+                }
                 let bearerToken = "Bearer \(token)"
                 request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
                 break
@@ -70,7 +72,9 @@ public class NetworkKit:NSObject, URLSessionDelegate {
          token:String?=nil
     ) async throws -> Data {
         let url = endpoint.url
-        print("[NetworkManager] requestAsync: \(url.absoluteString)")
+        if isLoggingEnabled {
+            print("[NetworkManager] requestAsync: \(url.absoluteString)")
+        }
         var request = URLRequest(
            url: url,
            cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
