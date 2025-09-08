@@ -5,8 +5,8 @@ import UIKit
 public class NetworkKit:NSObject, URLSessionDelegate {
     
     public static let shared = NetworkKit()
+    public var isLoggingEnabled: Bool = false
     private let session: URLSession
-    var isLoggingEnabled: Bool = false
     
     private override init() {
         self.session = URLSession.shared
