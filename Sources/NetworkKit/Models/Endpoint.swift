@@ -1,9 +1,9 @@
 import Foundation
 
 public struct Endpoint {
-    let host:Host
-    let path: String
-    var url:URL {
+    public let host:Host
+    public let path: String
+    public var url:URL {
         return URL(string: "\(host.name)\(path)")!
     }
     
