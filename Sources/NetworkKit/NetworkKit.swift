@@ -7,10 +7,38 @@ public class NetworkKit:NSObject, URLSessionDelegate {
     public static let shared = NetworkKit()
     public var isLoggingEnabled: Bool = false
     private let session: URLSession
+    private var userAgent:UserAgent?
     
     private override init() {
         self.session = URLSession.shared
         super.init()
+    }
+    
+    func loadUserAgent() async -> UserAgent? {
+        if let userAgent = userAgent {
+            return userAgent
+        } else if
+            let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String,
+            let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        {
+            let deviceModel = await UIDevice.current.model
+            let systemName = await UIDevice.current.systemName
+            let systemVersion = await UIDevice.current.systemVersion
+            let screenScale = await UIScreen.main.scale
+            let formattedScale = String(format: "%.2f", screenScale)
+
+            self.userAgent = .init(
+                appName: appName,
+                appVersion: version,
+                deviceModel: deviceModel,
+                systemName: systemName,
+                systemVersion: systemVersion,
+                screenScale: screenScale,
+                formattedScale: formattedScale
+            )
+            return self.userAgent
+        }
+        return nil
     }
 
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -47,6 +75,24 @@ public class NetworkKit:NSObject, URLSessionDelegate {
                 request.addValue(apiKey, forHTTPHeaderField: "xi-api-key")
                 break
             }
+        }
+        if let userAgent = await self.loadUserAgent() {
+            request.addValue(
+                userAgent.value,
+                forHTTPHeaderField: "User-Agent"
+            )
+            request.addValue(
+                userAgent.appName,
+                forHTTPHeaderField: "X-App-Name"
+            )
+            request.addValue(
+                userAgent.appVersion,
+                forHTTPHeaderField: "X-App-Version"
+            )
+            request.addValue(
+                "iOS",
+                forHTTPHeaderField: "X-Platform"
+            )
         }
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
