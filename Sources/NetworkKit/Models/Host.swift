@@ -1,6 +1,6 @@
 public struct Host {
-    let name: String
-    let authorization:() async -> Authorization?
+    public let name: String
+    public let authorization:() async -> Authorization?
     
     public init(
         name: String,
