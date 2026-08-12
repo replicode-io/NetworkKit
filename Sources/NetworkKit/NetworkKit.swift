@@ -54,7 +54,7 @@ public class NetworkKit:NSObject, URLSessionDelegate {
     ) async throws -> Response {
         let url = endpoint.url
         if isLoggingEnabled {
-            print("[NetworkManager] requestAsync: \(url.absoluteString)")
+            print("[NetworkManager] \(method.rawValue) \(url.absoluteString)")
         }
         var request = URLRequest(
            url: url,
